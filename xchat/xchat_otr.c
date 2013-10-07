@@ -104,6 +104,11 @@ int hook_privmsg(char *word[], char *word_eol[], void *userdata)
 
 	if (!extract_nick(nick,word[1]))
 		return XCHAT_EAT_NONE;
+	
+	// ignore messages not directed at you personally
+	// e.g. messages in a common channel
+	if(strcmp(own_nick,word[3])!=0)
+		return XCHAT_EAT_NONE;
 
 #ifdef HAVE_GREGEX_H
 	if (g_regex_match(regex_nickignore,nick,0,NULL))
